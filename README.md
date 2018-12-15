@@ -7,5 +7,9 @@ Data visualisation in [ClojureScript](https://clojurescript.org/) using [reagent
 ### Run it
 
 ```bash
-lein fig -- -b dev -r
+make dev-start
 ```
+
+### Look at it
+
+[Examples page](https://josephowatkins.github.io/reagent-d3/)
