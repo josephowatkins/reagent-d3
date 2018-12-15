@@ -1,0 +1,2 @@
+{:main reagent-d3.core
+ :optimizations :simple}
