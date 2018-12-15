@@ -1,14 +1,11 @@
 # reagent-d3
 
-A Clojure library designed to ... well, that part is up to you.
+Data visualisation in [ClojureScript](https://clojurescript.org/) using [reagent](https://reagent-project.github.io/) and [d3](https://d3js.org/). Inspired by this excellent [book](http://alignedleft.com/work/d3-book-2e).
 
 ## Usage
 
-FIXME
+### Run it
 
-## License
-
-Copyright © 2018 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+```bash
+lein fig -- -b dev -r
+```

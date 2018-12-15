@@ -1,0 +1,2 @@
+^{:css-dirs ["resources/public/css"]}
+{:main reagent-d3.core}
