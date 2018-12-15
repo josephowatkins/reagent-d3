@@ -1,0 +1,33 @@
+ body {
+    font-family: Sans-Serif;
+    background-color: #eee;
+}
+
+.wrapper {
+    width: 600px;
+    margin: 45px auto 0;
+    padding: 0 15px 15px;
+    border: 1px solid #888;
+    background-color: #fff;
+    padding-bottom:
+}
+
+/* bar chart */
+.bar-chart {
+    width: 600px;
+    margin: 15px 0 0;
+}
+
+.bar-chart__title {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 10px 5px 0;;
+}
+
+.bar-chart__button {
+    margin: 8px 5px 0;
+}
+
+.bar-chart__chart {
+    margin: 25px 0 0;
+}
