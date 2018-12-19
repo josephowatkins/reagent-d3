@@ -107,6 +107,7 @@
 
 (defn view []
   [:div.bar-chart
-   [:div.bar-chart__title "Bar chart"]
+   [:div.bar-chart__title
+    [:h2 "Bar chart"]]
    [button chart-state]
    [bar-chart @chart-state]])

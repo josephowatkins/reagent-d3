@@ -9,19 +9,15 @@
     padding: 0 15px 15px;
     border: 1px solid #888;
     background-color: #fff;
-    padding-bottom:
 }
 
 /* bar chart */
 .bar-chart {
-    width: 600px;
-    margin: 15px 0 0;
+    margin-top: 15px;
 }
 
-.bar-chart__title {
-    font-size: 22px;
-    font-weight: bold;
-    margin: 10px 5px 0;;
+.bar-chart__chart {
+    margin-top: 25px;
 }
 
 .bar-chart__button {
