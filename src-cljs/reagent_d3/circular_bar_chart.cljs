@@ -5,24 +5,26 @@
 (def height 600)
 (def width 600)
 
-;; todo
-;; make min and max configurable
-;; properly scale the values
-;; fix the ugly colours
-
-(defn generate-data [n]
-  (take n (map vector
-                 (repeatedly #(+ 50 (rand-int 100)))
-                 (repeatedly #(+ 150 (rand-int 150))))))
+(defn generate-data [n min max]
+  (let [mid (int (/ (+ min max) 2))]
+    (take n (map vector
+                 (repeatedly #(+ min (rand-int (- mid min))))
+                 (repeatedly #(+ mid (rand-int (- (inc max) mid))))))))
 
 (def chart-state
-  (reagent/atom (generate-data 360)))
+  (reagent/atom (generate-data 150 50 300)))
 
-(def bar-width 7)
+(def bar-width 10)
 
 (defn draw [state]
   (let [svg (d3/select ".circular-bar-chart__chart")
-        data (clj->js state)]
+        data (clj->js state)
+        length-scale (-> (d3/scaleLinear)
+                         (.domain #js [0 (d3/max data (fn [[_ max]] max))])
+                         (.range #js [0 (/ height 2)]))
+        degree-scale (-> (d3/scaleLinear)
+                         (.domain #js [0 (count data)])
+                         (.range #js [0 360]))]
     ;; draw the rect
     (-> svg
         (.selectAll "rect")
@@ -31,16 +33,22 @@
         (.append "rect")
         (.attr "x" (- (/ width 2) (/ bar-width 2)))
         (.attr "y" (fn [[min max]]
-                     (- (/ height 2) max)))
+                     (- (/ height 2) (length-scale max))))
         (.attr "width" bar-width)
-        (.attr "height" (fn [[min max]] (- max min)))
+        (.attr "height" (fn [[min max]] (length-scale (- max min))))
         (.attr "transform" (fn [d i]
-                             (str "rotate(" i "," (/ width 2) "," (/ height 2) ")")))
+                             (str "rotate(" (degree-scale i) "," (/ width 2) "," (/ height 2) ")")))
         (.attr "fill" (fn [[min max]] (str "rgb(" (- max min) ",0,0)"))))))
 
 (defn re-draw [state]
   (let [svg (d3/select ".circular-bar-chart__chart")
-        data (clj->js state)]
+        data (clj->js state)
+        length-scale (-> (d3/scaleLinear)
+                         (.domain #js [0 (d3/max data (fn [[_ max]] max))])
+                         (.range #js [0 (/ height 2)]))
+        degree-scale (-> (d3/scaleLinear)
+                         (.domain #js [0 (count data)])
+                         (.range #js [0 360]))]
     ;; draw the rect
     (-> svg
         (.selectAll "rect")
@@ -51,11 +59,11 @@
         (.duration 500)
         (.attr "x" (- (/ width 2) (/ bar-width 2)))
         (.attr "y" (fn [[min max]]
-                     (- (/ height 2) max)))
+                     (- (/ height 2) (length-scale max))))
         (.attr "width" bar-width)
-        (.attr "height" (fn [[min max]] (- max min)))
+        (.attr "height" (fn [[min max]] (length-scale (- max min))))
         (.attr "transform" (fn [d i]
-                             (str "rotate(" i "," (/ width 2) "," (/ height 2) ")")))
+                             (str "rotate(" (degree-scale i) "," (/ width 2) "," (/ height 2) ")")))
         (.attr "fill" (fn [[min max]] (str "rgb(" (- max min) ",0,0)"))))))
 
 (defn circular-bar-chart [state]
@@ -71,7 +79,7 @@
                                              :width width}])}))
 
 (defn randomize! [ratom]
-  (reset! ratom (generate-data 360)))
+  (reset! ratom (generate-data 150 50 300)))
 
 (defn button [ratom]
   [:button.bar-chart__button
@@ -81,6 +89,6 @@
 (defn view []
   [:div.circular-bar-chart
    [:div.circular-bar-char__title
-    [:h2 "Weird pie"]]
+    [:h2 "Circular bar char"]]
    [button chart-state]
    [circular-bar-chart @chart-state]])
