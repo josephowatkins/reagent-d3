@@ -13,7 +13,6 @@
 (defn draw [state]
   (let [svg (d3/select ".scatter-plot__chart")
         data (clj->js state)
-        _ (println data)
         x-scale (-> (d3/scaleLinear)
                     (.domain #js [0 (d3/max data (fn [[x _]] x))])
                     (.range #js [padding (- width (* padding 2))]))
@@ -64,7 +63,6 @@
 (defn re-draw [state]
   (let [svg (d3/select ".scatter-plot__chart")
         data (clj->js state)
-        _ (println data)
         x-scale (-> (d3/scaleLinear)
                     (.domain #js [0 (d3/max data (fn [[x _]] x))])
                     (.range #js [padding (- width (* padding 2))]))
@@ -100,7 +98,6 @@
                                                 (draw state))
                          :component-did-update (fn [this]
                                                  (let [[_ new-state] (reagent/argv this)]
-                                                   (println "update")
                                                    (re-draw new-state)))
                          :reagent-render (fn []
                                            [:svg.scatter-plot__chart
@@ -112,7 +109,6 @@
         new-data (take 11 (map vector
                                (repeatedly #(rand-int domain-max))
                                (repeatedly #(rand-int domain-max))))]
-    (println domain-max)
     (reset! ratom new-data)))
 
 (defn button [ratom]
