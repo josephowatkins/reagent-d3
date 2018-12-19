@@ -20,10 +20,11 @@
     margin-top: 25px;
 }
 
-.bar-chart__button {
-    margin: 8px 5px 0;
+/* scatter plot  */
+.scatter-plot {
+    margin-top: 15px;
 }
 
-.bar-chart__chart {
-    margin: 25px 0 0;
+.scatter-ploy__chart {
+    margin-top: 25px;
 }
