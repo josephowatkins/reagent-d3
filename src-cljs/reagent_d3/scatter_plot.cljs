@@ -51,12 +51,12 @@
         (.attr "fill" "red"))
     (-> svg
         (.append "g")
-        (.attr "class" "axis")
+        (.attr "class" "x axis")
         (.attr "transform" (str "translate(0," (- height padding) ")"))
         (.call x-axis))
     (-> svg
         (.append "g")
-        (.attr "class" "axis")
+        (.attr "class" "y axis")
         (.attr "transform" (str "translate(" padding ",0)"))
         (.call y-axis))))
 
@@ -71,12 +71,19 @@
                     (.range #js [(- height padding) padding]))
         a-scale (-> (d3/scaleSqrt)
                     (.domain #js [0 (d3/max data (fn [[_ y]] y))])
-                    (.range #js [0 10]))]
+                    (.range #js [0 10]))
+        x-axis (-> (d3/axisBottom)
+                   (.scale x-scale)
+                   (.ticks 5))
+        y-axis (-> (d3/axisLeft)
+                   (.scale y-scale)
+                   (.ticks 5))]
     ;; draw the circles
     (-> svg
         (.selectAll "circle")
         (.data data)
         (.transition)
+        (.duration 500)
         (.attr "cx" (fn [[x _]] (x-scale x)))
         (.attr "cy" (fn [[_ y]] (y-scale y)))
         (.attr "r"  (fn [[_ y]] (a-scale y))))
@@ -85,12 +92,23 @@
         (.selectAll "text")
         (.data data)
         (.transition)
+        (.duration 500)
         (.text (fn [[x y]] (str x "," y)))
         (.attr "x" (fn [[x _]] (x-scale x)))
         (.attr "y" (fn [[_ y]] (y-scale y)))
         (.attr "font-family" "sans-serif")
         (.attr "font-size" "11px")
-        (.attr "fill" "red"))))
+        (.attr "fill" "red"))
+    (-> svg
+        (.select ".x.axis")
+        (.transition)
+        (.duration 500)
+        (.call x-axis))
+    (-> svg
+        (.select ".y.axis")
+        (.transition)
+        (.duration 500)
+        (.call y-axis))))
 
 (defn scatter-plot [state]
   (reagent/create-class {:display-name "scatter plot"
