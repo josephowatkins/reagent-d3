@@ -96,8 +96,7 @@
         (.exit)
         (.transition)
         (.duration duration)
-        (.attr "x" (fn [d i]
-                     (x-scale-extended i)))
+        (.attr "x" (fn [d i] (x-scale-extended i)))
         (.attr "width" (.bandwidth x-scale))
         (.remove))
     ;; re-draw labels
